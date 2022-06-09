@@ -16,18 +16,18 @@ contract SimpleZKrollup {
     }
 
     function forgeBatch(
-            uint48 newLastIdx,
-            uint256 newStRoot,
-            uint256 newExitRoot,
-            bytes calldata encodedL1CoordinatorTx,
-            bytes calldata l1L2TxsData,
-            bytes calldata feeIdxCoordinator,
-            uint8 verifierIdx,
-            bool l1Batch,
-            uint256[2] calldata proofA,
-            uint256[2][2] calldata proofB,
-            uint256[2] calldata proofC
-        ) external {
+        uint48 newLastIdx,
+        uint256 newStRoot,
+        uint256 newExitRoot,
+        bytes calldata encodedL1CoordinatorTx,
+        bytes calldata l1L2TxsData,
+        bytes calldata feeIdxCoordinator,
+        uint8 verifierIdx,
+        bool l1Batch,
+        uint256[2] calldata proofA,
+        uint256[2][2] calldata proofB,
+        uint256[2] calldata proofC
+    ) external {
 
 
     function addL1Transaction(

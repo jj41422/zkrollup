@@ -13,7 +13,6 @@ contract SimpleZKrollup {
     uint32 public nextL1FillingQueue;
 
     constructor() {
-    
     }
 
     function forgeBatch(

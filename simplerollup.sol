@@ -28,7 +28,6 @@ contract SimpleZKrollup {
 
 
     function addL1Transaction(
-        uint256 babyPubKey,
         uint48 fromIdx,
         uint40 loadAmountF,
         uint40 amountF,
@@ -41,7 +40,6 @@ contract SimpleZKrollup {
     function withdrawMerkleProof(
         uint32 tokenID,
         uint192 amount,
-        uint256 babyPubKey,
         uint32 numExitRoot,
         uint256[] memory siblings,
         uint48 idx,

@@ -10,10 +10,7 @@ gg[verts_, edges_] :=
     Labeled[v, Placed[Style[v, Black, Small], Center]]] /@ verts, 
   Function[e, e[[1]] \[UndirectedEdge] e[[2]]] /@ edges, 
   VertexSize -> 0.5, VertexStyle -> White, VertexLabelStyle -> 14]
-  
-bdry[g_, A_] := 
- Length[Select[Function[e, {e[[1]], e[[2]]}] /@ EdgeList[g], 
-   Length[Intersection[A, #]] == 1 &]]
+ 
    
 randreg[n_, r_] := Module[{p, edges, done = False, i},
   While[done == False,

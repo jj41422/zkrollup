@@ -1,9 +1,8 @@
 xvec[g_] := 
-  Function[l, ToExpression[StringJoin["x", ToString[l]]]] /@ 
-   VertexList[g];
+  Function[l, ToExpression[StringJoin["x", ToString[l]]]] /@ VertexList[g];
    
 bdry[g_, A_] := 
- Length[Select[Function[e, {e[[1]], e[[2]]}] /@ EdgeList[g], 
+ Length[Select[Function[e, {e[[1]], e[[2]]}] /@ EdgeList[g],
    Length[Intersection[A, #]] == 1 &]]
    
 gg[verts_, edges_] := 
@@ -31,9 +30,34 @@ randreg[n_, r_] := Module[{p, edges, done = False, i},
   gg[Range[n], edges]
   ]
   
-  cheeger[g_] := Module[{verts, sets, conds, x},
+cheeger[g_] := Module[{verts, sets, conds, x},
   x = xvec[g];
   verts = VertexList[g];
   sets = Subsets[verts, {1, Length[verts]/2}];
   Min @@ Function[A, bdry[g, A]/Length[A]] /@ sets
+  ]
+  
+int[A_] := 
+  Module[{res}, res = {}; 
+  For[i = 1, i <= m + n, i++, 
+   If[Length[Intersection[A, edges[[i]]]] == 2, res = Append[res, i], 
+    res = res]]; res]
+    
+bdry[A_] := 
+  Module[{res}, res = {}; 
+  For[i = 1, i <= m + n, i++, 
+   If[Length[Intersection[A, edges[[i]]]] == 1, res = Append[res, i], 
+    res = res]]; res]
+    
+ext[v_, A_, y_] := Module[{bd, gp},
+  bd = Select[bdry[A], MemberQ[edges[[#]], v] &];
+  Total[y[[bd]]]
+ ]
+   
+vol[A_, y_] := Module[{res}, res = {};
+  res = Total[
+    Function[v, 
+      Total[y[[Select[Range[n + m], MemberQ[edges[[#]], v] &]]]]^
+       sig] /@ A];
+  res
   ]

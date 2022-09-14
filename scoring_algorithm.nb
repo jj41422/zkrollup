@@ -1,14 +1,39 @@
 xvec[g_] := 
   Function[l, ToExpression[StringJoin["x", ToString[l]]]] /@ 
    VertexList[g];
+   
 bdry[g_, A_] := 
  Length[Select[Function[e, {e[[1]], e[[2]]}] /@ EdgeList[g], 
    Length[Intersection[A, #]] == 1 &]]
+   
 gg[verts_, edges_] := 
  Graph[Function[v, 
     Labeled[v, Placed[Style[v, Black, Small], Center]]] /@ verts, 
   Function[e, e[[1]] \[UndirectedEdge] e[[2]]] /@ edges, 
   VertexSize -> 0.5, VertexStyle -> White, VertexLabelStyle -> 14]
+  
 bdry[g_, A_] := 
  Length[Select[Function[e, {e[[1]], e[[2]]}] /@ EdgeList[g], 
    Length[Intersection[A, #]] == 1 &]]
+   
+randreg[n_, r_] := Module[{p, edges, done = False, i},
+  While[done == False,
+   done = True;
+   p = PermutationReplace[Range[n r], RandomPermutation[n r]];
+   edges = 
+    Sort /@ Function[e, Mod[e, n] + 1] /@ 
+      Function[i, {p[[2 i - 1]], p[[2 i]]}] /@ Range[Floor[n r/2]];
+   For[i = 1, i <= Length[edges], i++, 
+    If[edges[[i]][[1]] == edges[[i]][[2]], done = False, Nothing]];
+   If[done == True && Length[DeleteDuplicates[edges]] < Length[edges],
+     done = False, Nothing];
+   ];
+  gg[Range[n], edges]
+  ]
+  
+  cheeger[g_] := Module[{verts, sets, conds, x},
+  x = xvec[g];
+  verts = VertexList[g];
+  sets = Subsets[verts, {1, Length[verts]/2}];
+  Min @@ Function[A, bdry[g, A]/Length[A]] /@ sets
+  ]

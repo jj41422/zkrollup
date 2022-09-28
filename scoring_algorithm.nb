@@ -209,7 +209,36 @@ algo2[graph_] :=
      GraphHighlightStyle -> "Thick"]];
    ];
   ]
-  
+ 
+ theta[g_, alpha_] := Module[{verts, vol, sets},
+  verts = VertexList[g];
+  vol = Total[alpha];
+  sets = Select[Subsets[verts], Total[alpha[[#]]] <= vol/2 &];
+  Function[v, 
+    alpha[[v]] + 
+     Min @@ (Function[A, 
+         If[MemberQ[A, v], (bdry[g, A] - Total[alpha[[A]]])/Length[A],
+           Infinity]] /@ sets)] /@ verts
+  ]
+
+theta1[g_, alpha_] := Module[{verts, vol, sets},
+  verts = VertexList[g];
+  vol = Total[alpha];
+  sets = Select[Subsets[verts], Total[alpha[[#]]] <= vol/2 &];
+  Function[v, 
+    Min @@ (Function[A, 
+        If[MemberQ[A, v], bdry[g, A]/Length[A], Infinity]] /@ sets)] /@
+    verts
+  ]
+
+theta2[g_, alpha_] := 
+ Function[v, 
+   K1[g, Complement[VertexList[NeighborhoodGraph[g, v]], {v}], 
+    alpha]] /@ VertexList[g]
+thetak[g_, alpha_, n_] := 
+ Module[{i, res = alpha}, 
+  For[i = 1, i <= n, i++, res = theta[g, res]; Print[res]]]
+
   
   
 (* graphs operations *)
